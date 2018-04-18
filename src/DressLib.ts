@@ -149,7 +149,7 @@ class Dress
 	}
 
 	// <style>
-	private reflectStyleSheet()
+	public reflectStyleSheet()
 	{
 		if ( !this.element )
 		{

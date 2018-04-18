@@ -17,7 +17,7 @@ declare class Dress {
     }, value?: string): Dress | null;
     clear(selector: string): this;
     toStoring(selector?: string): string;
-    private reflectStyleSheet();
+    reflectStyleSheet(): HTMLStyleElement;
 }
 declare module "dress" {
     export = Dress;
