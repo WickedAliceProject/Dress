@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja" style="font-size:20px;">
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="description" content="">
+	<script type="text/javascript" src="./app.js?1"></script>
+	<script type="text/javascript">
+
+document.addEventListener( 'DOMContentLoaded', () =>
+{
+	const tstyle = new Dress( '.myStyle' );
+	tstyle.set( 'textAlign', 'center' );
+	tstyle.add( 'span a' ).set('textDecoration','none');
+	tstyle.add( 'span' ).set( 'fontSize', '0.8em' );
+	console.log( tstyle.rules );
+	tstyle.reflectStyleSheet();
+} );
+	</script>
+</head>
+<body>
+	<div class="myStyle">test</div>
+</body>
+</html>

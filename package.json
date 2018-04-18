@@ -1,0 +1,15 @@
+{
+  "name": "dress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./docs/dress.js",
+  "types": "./docs/dress.d.ts",
+  "scripts": {
+    "build": "tsc -p src",
+    "site": "tsc -p src/site",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hiroki",
+  "license": "MIT",
+  "devDependencies": {}
+}

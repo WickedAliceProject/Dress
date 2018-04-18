@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"outFile": "../docs/dress.js",
+		"module": "amd",
+		"target": "es6",
+		"moduleResolution": "node",
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"removeComments": true,
+		"preserveConstEnums": false,
+		"sourceMap": false,
+		"declaration": true
+	},
+	"include": [
+		"./dress.ts"
+	]
+}
