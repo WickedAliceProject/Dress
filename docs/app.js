@@ -98,11 +98,14 @@ class Dress {
         }).join(';');
         return (this.selector && style ? (selector + '{' + style + '}') : '') + this.rules.map((rule) => { return rule.toStoring(selector); }).join('');
     }
-    reflectStyleSheet() {
-        if (!this.element) {
+    reflectStyleSheet(rootElement, force) {
+        if (!this.element || force) {
             this.element = document.createElement('style');
             this.element.appendChild(document.createTextNode(''));
-            document.head.appendChild(this.element);
+            if (!rootElement) {
+                rootElement = document.head;
+            }
+            rootElement.appendChild(this.element);
         }
         this.element.textContent = this.toStoring();
         return this.element;

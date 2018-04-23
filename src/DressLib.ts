@@ -149,13 +149,14 @@ class Dress
 	}
 
 	// <style>
-	public reflectStyleSheet()
+	public reflectStyleSheet( rootElement?: HTMLElement, force?: boolean )
 	{
-		if ( !this.element )
+		if ( !this.element || force )
 		{
 			this.element = document.createElement( 'style' );
 			this.element.appendChild( document.createTextNode( '' ) );
-			document.head.appendChild( this.element );
+			if ( !rootElement ) { rootElement = document.head; }
+			rootElement.appendChild( this.element );
 		}
 		this.element.textContent = this.toStoring();
 		return this.element;
