@@ -149,7 +149,7 @@ class Dress
 	}
 
 	// <style>
-	public reflectStyleSheet( rootElement?: HTMLElement, force?: boolean )
+	public reflectStyleSheet( rootElement?: HTMLElement | ShadowRoot, force?: boolean )
 	{
 		if ( !this.element || force )
 		{
