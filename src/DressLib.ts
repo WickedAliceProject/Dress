@@ -39,16 +39,35 @@ class Dress
 		{
 			Object.keys( name ).forEach( ( key: keyof CSSStyleDeclaration ) =>
 			{
-				if ( key === 'length' || key === 'parentRule' ) { return this; }
+				if ( key === 'length' || key === 'parentRule' ) { return; }
 				this.style[ key ] = name[ key ] || '';
 			} );
 		}
 		return this;
 	}
 
-	public unset( ...names: (keyof CSSStyleDeclaration)[] )
+	/** Set CSS Custom propaties.
+	*/
+	public setCustom( name: string | { [ key: string ]: string }, value: string = '' )
 	{
-		names.forEach( ( name ) => { delete this.style[ name ]; } );
+		if ( typeof name === 'string' )
+		{
+			if ( name.indexOf( '--' ) !== 0 ) { return this; }
+			(<any>this.style)[ name ] = value;
+		} else
+		{
+			Object.keys( name ).forEach( ( key: keyof CSSStyleDeclaration ) =>
+			{
+				if ( key.indexOf( '--' ) !== 0 ) { return; }
+				(<any>this.style)[ key ] = name[ key ] || '';
+			} );
+		}
+		return this;
+	}
+
+	public unset( ...names: (keyof CSSStyleDeclaration|string)[] )
+	{
+		names.forEach( ( name ) => { delete (<any>this.style)[ name ]; } );
 		return this;
 	}
 

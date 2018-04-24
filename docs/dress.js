@@ -15,7 +15,24 @@ class Dress {
         else {
             Object.keys(name).forEach((key) => {
                 if (key === 'length' || key === 'parentRule') {
-                    return this;
+                    return;
+                }
+                this.style[key] = name[key] || '';
+            });
+        }
+        return this;
+    }
+    setCustom(name, value = '') {
+        if (typeof name === 'string') {
+            if (name.indexOf('--') !== 0) {
+                return this;
+            }
+            this.style[name] = value;
+        }
+        else {
+            Object.keys(name).forEach((key) => {
+                if (key.indexOf('--') !== 0) {
+                    return;
                 }
                 this.style[key] = name[key] || '';
             });

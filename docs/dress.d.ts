@@ -8,7 +8,10 @@ declare class Dress {
     set(name: keyof CSSStyleDeclaration | {
         [key in keyof CSSStyleDeclaration]?: string;
     }, value?: string): this;
-    unset(...names: (keyof CSSStyleDeclaration)[]): this;
+    setCustom(name: string | {
+        [key: string]: string;
+    }, value?: string): this;
+    unset(...names: (keyof CSSStyleDeclaration | string)[]): this;
     add(style: Dress | string): Dress;
     search(selector: string): Dress | null;
     remove(selector: string): this;
