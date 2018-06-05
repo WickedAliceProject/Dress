@@ -1,11 +1,14 @@
 class Dress {
     static toLower(c) { return '-' + String.fromCharCode(c.charCodeAt(0) | 32); }
     constructor(selector) {
-        this.selector = selector;
-        this.style = {};
+        this.selector = selector || '';
+        this.style = selector ? {} : null;
         this.rules = [];
     }
     set(name, value = '') {
+        if (!this.style) {
+            return this;
+        }
         if (name === 'length' || name === 'parentRule') {
             return this;
         }
@@ -13,16 +16,20 @@ class Dress {
             this.style[name] = value;
         }
         else {
+            const style = this.style;
             Object.keys(name).forEach((key) => {
                 if (key === 'length' || key === 'parentRule') {
                     return;
                 }
-                this.style[key] = name[key] || '';
+                style[key] = name[key] || '';
             });
         }
         return this;
     }
     setCustom(name, value = '') {
+        if (!this.style) {
+            return this;
+        }
         if (typeof name === 'string') {
             if (name.indexOf('--') !== 0) {
                 return this;
@@ -110,8 +117,9 @@ class Dress {
         else {
             selector = this.selector;
         }
-        const style = Object.keys(this.style).map((key) => {
-            return key.replace(/[A-Z]/g, Dress.toLower) + ':' + this.style[key];
+        const _style = this.style || {};
+        const style = Object.keys(_style).map((key) => {
+            return key.replace(/[A-Z]/g, Dress.toLower) + ':' + _style[key];
         }).join(';');
         return (this.selector && style ? (selector + '{' + style + '}') : '') + this.rules.map((rule) => { return rule.toStoring(selector); }).join('');
     }

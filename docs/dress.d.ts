@@ -4,7 +4,7 @@ declare class Dress {
     private style;
     private rules;
     private element;
-    constructor(selector: string);
+    constructor(selector?: string);
     set(name: keyof CSSStyleDeclaration | {
         [key in keyof CSSStyleDeclaration]?: string;
     }, value?: string): this;

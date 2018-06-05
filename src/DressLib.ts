@@ -17,30 +17,32 @@ class Dress
 	public static toLower( c: string ) { return '-' + String.fromCharCode( c.charCodeAt( 0 ) | 32 ); }
 
 	public selector: string;
-	private style: { [ key in keyof CSSStyleDeclaration ]?: string };
+	private style: { [ key in keyof CSSStyleDeclaration ]?: string } | null;
 	private rules: Dress[];
 	private element: HTMLStyleElement;
 
-	constructor( selector: string )
+	constructor( selector?: string )
 	{
-		this.selector = selector;
-		this.style = {};
+		this.selector = selector || '';
+		this.style = selector ? {} : null;
 		this.rules = [];
 	}
 
 	// CSSStyleDeclaration
 	public set( name: keyof CSSStyleDeclaration | { [ key in keyof CSSStyleDeclaration ]?: string }, value: string = '' )
 	{
+		if ( !this.style ) { return this; }
 		if ( name === 'length' || name === 'parentRule' ) { return this; }
 		if ( typeof name === 'string' )
 		{
 			this.style[ name ] = value;
 		} else
 		{
+			const style = this.style;
 			Object.keys( name ).forEach( ( key: keyof CSSStyleDeclaration ) =>
 			{
 				if ( key === 'length' || key === 'parentRule' ) { return; }
-				this.style[ key ] = name[ key ] || '';
+				style[ key ] = name[ key ] || '';
 			} );
 		}
 		return this;
@@ -50,6 +52,7 @@ class Dress
 	*/
 	public setCustom( name: string | { [ key: string ]: string }, value: string = '' )
 	{
+		if ( !this.style ) { return this; }
 		if ( typeof name === 'string' )
 		{
 			if ( name.indexOf( '--' ) !== 0 ) { return this; }
@@ -160,9 +163,10 @@ class Dress
 			}
 		} else { selector = this.selector; }
 
-		const style = Object.keys( this.style ).map( ( key: keyof CSSStyleDeclaration ) =>
+		const _style = this.style || {};
+		const style = Object.keys( _style ).map( ( key: keyof CSSStyleDeclaration ) =>
 		{
-			return key.replace( /[A-Z]/g, Dress.toLower ) + ':' + this.style[ key ];
+			return key.replace( /[A-Z]/g, Dress.toLower ) + ':' + _style[ key ];
 		} ).join( ';' );
 		return ( this.selector && style ? ( selector + '{' + style + '}' ) : '' ) + this.rules.map( ( rule ) => { return rule.toStoring( selector ); } ).join( '' );
 	}
