@@ -179,7 +179,13 @@ class Dress
 			this.element = document.createElement( 'style' );
 			this.element.appendChild( document.createTextNode( '' ) );
 			if ( !rootElement ) { rootElement = document.head; }
-			rootElement.appendChild( this.element );
+			if ( rootElement.children[ 0 ] )
+			{
+				rootElement.insertBefore( this.element, rootElement.children[ 0 ] );
+			} else
+			{
+				rootElement.appendChild( this.element );
+			}
 		}
 		this.element.textContent = this.toStoring();
 		return this.element;
