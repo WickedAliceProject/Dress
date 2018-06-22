@@ -39,10 +39,10 @@ class Dress
 		} else
 		{
 			const style = this.style;
-			Object.keys( name ).forEach( ( key: keyof CSSStyleDeclaration ) =>
+			Object.keys( name ).forEach( ( key/*: keyof CSSStyleDeclaration*/ ) =>
 			{
 				if ( key === 'length' || key === 'parentRule' ) { return; }
-				style[ key ] = name[ key ] || '';
+				(<any>style)[ key ] = (<any>name)[ key ] || '';
 			} );
 		}
 		return this;
@@ -59,7 +59,7 @@ class Dress
 			(<any>this.style)[ name ] = value;
 		} else
 		{
-			Object.keys( name ).forEach( ( key: keyof CSSStyleDeclaration ) =>
+			Object.keys( name ).forEach( ( key ) =>
 			{
 				if ( key.indexOf( '--' ) !== 0 ) { return; }
 				(<any>this.style)[ key ] = name[ key ] || '';
@@ -164,11 +164,12 @@ class Dress
 		} else { selector = this.selector; }
 
 		const _style = this.style || {};
-		const style = Object.keys( _style ).map( ( key: keyof CSSStyleDeclaration ) =>
+		const style = Object.keys( _style ).map( ( key/*: keyof CSSStyleDeclaration*/ ) =>
 		{
+			if ( typeof key !== 'string' ) { return ''; }
 			if ( key === 'cssFloat' ) { return 'float:' + _style[ key ]; }
-			if ( key === 'content' ) { return 'content:' + (<string>_style[ key ]).charAt( 0 ) === '"' ? _style[ key ] : '"' + _style[ key ] + '"'; }
-			return key.replace( /[A-Z]/g, Dress.toLower ) + ':' + _style[ key ];
+			if ( key === 'content' ) { return 'content:' + ( (<string>_style[ key ]).charAt( 0 ) === '"' ? _style[ key ] : '"' + _style[ key ] + '"' ); }
+			return key.replace( /[A-Z]/g, Dress.toLower ) + ':' + (<any>_style)[ key ];
 		} ).join( ';' );
 		return ( this.selector && style ? ( selector + '{' + style + '}' ) : '' ) + this.rules.map( ( rule ) => { return rule.toStoring( selector ); } ).join( '' );
 	}

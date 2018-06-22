@@ -119,11 +119,14 @@ class Dress {
         }
         const _style = this.style || {};
         const style = Object.keys(_style).map((key) => {
+            if (typeof key !== 'string') {
+                return '';
+            }
             if (key === 'cssFloat') {
                 return 'float:' + _style[key];
             }
             if (key === 'content') {
-                return 'content:' + _style[key].charAt(0) === '"' ? _style[key] : '"' + _style[key] + '"';
+                return 'content:' + (_style[key].charAt(0) === '"' ? _style[key] : '"' + _style[key] + '"');
             }
             return key.replace(/[A-Z]/g, Dress.toLower) + ':' + _style[key];
         }).join(';');
