@@ -1,5 +1,6 @@
 declare class Dress {
     static toLower(c: string): string;
+    private parent;
     selector: string;
     private style;
     private rules;
@@ -12,7 +13,9 @@ declare class Dress {
         [key: string]: string;
     }, value?: string): this;
     unset(...names: (keyof CSSStyleDeclaration | string)[]): this;
+    private generateDress(style, parent);
     add(style: Dress | string): Dress;
+    lineUp(style: Dress | string): Dress;
     search(selector: string): Dress | null;
     remove(selector: string): this;
     update(selector: string, name: keyof CSSStyleDeclaration | {

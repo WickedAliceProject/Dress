@@ -50,28 +50,36 @@ class Dress {
         names.forEach((name) => { delete this.style[name]; });
         return this;
     }
-    add(style) {
+    generateDress(style, parent) {
         if (typeof style === 'string') {
             const selectors = style.split(' ');
             const selector = selectors.shift() || '';
-            let _style = this.search(selector);
+            let _style = parent.search(selector);
             if (!_style) {
                 _style = new Dress(selector);
-                this.rules.push(_style);
+                parent.rules.push(_style);
             }
             selectors.forEach((selector) => {
                 _style = _style.add(selector);
             });
+            _style.parent = parent;
             return _style;
         }
-        for (let i = 0; i < this.rules.length; ++i) {
-            if (this.rules[i].selector === style.selector) {
-                this.rules[i] = style;
+        style.parent = parent;
+        for (let i = 0; i < parent.rules.length; ++i) {
+            if (parent.rules[i].selector === style.selector) {
+                parent.rules[i] = style;
                 return style;
             }
         }
-        this.rules.push(style);
+        parent.rules.push(style);
         return style;
+    }
+    add(style) {
+        return this.generateDress(style, this);
+    }
+    lineUp(style) {
+        return this.generateDress(style, this.parent || this);
     }
     search(selector) {
         for (let i = 0; i < this.rules.length; ++i) {
